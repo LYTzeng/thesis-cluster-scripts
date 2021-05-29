@@ -1,0 +1,42 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: nginx 
+  namespace: nginx 
+spec: 
+  volumes:
+  - name: nginx-test-file
+    persistentVolumeClaim:
+      claimName: nginx-test-file-pvc
+  - name: nginx-conf
+    persistentVolumeClaim:
+      claimName: nginx-conf-pvc
+  - name: nginx-default
+    persistentVolumeClaim:
+      claimName: nginx-default-pvc
+  containers: 
+  - name: nginx 
+    image: nginx
+    imagePullPolicy: IfNotPresent 
+    volumeMounts:
+      - name: nginx-test-file
+        mountPath: /home/oscar/curl_test_file
+        readOnly: true
+      - name: nginx-conf
+        mountPath: /etc/nginx/nginx.conf
+        subPath: nginx.conf
+        readOnly: true
+      - name: nginx-default
+        mountPath: /etc/nginx/sites-enabled/default
+        subPath: default
+        readOnly: true
+  restartPolicy: Always
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - worker-2 # Edit this to be an actual kubernetes name of your server

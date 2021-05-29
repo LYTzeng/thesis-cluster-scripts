@@ -1,0 +1,113 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nginx-test-file-pvc
+  namespace: nginx
+spec:
+  storageClassName: nginx-test-file
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nginx-test-file
+  namespace: nginx
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: nginx-test-file
+  local:
+    # Edit this to be an actual path on your server's filesystem
+    path: /home/oscar/curl_test_file
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - worker-2 # Edit this to be an actual kubernetes name of your server
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nginx-conf-pvc
+  namespace: nginx
+spec:
+  storageClassName: nginx-conf
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 0.5Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nginx-conf
+  namespace: nginx
+spec:
+  capacity:
+    storage: 0.5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: nginx-conf
+  local:
+    # Edit this to be an actual path on your server's filesystem
+    path: /etc/nginx
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - worker-2 # Edit this to be an actual kubernetes name of your server
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nginx-default-pvc
+  namespace: nginx
+spec:
+  storageClassName: nginx-default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 0.5Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nginx-default
+  namespace: nginx
+spec:
+  capacity:
+    storage: 0.5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: nginx-default
+  local:
+    # Edit this to be an actual path on your server's filesystem
+    path: /etc/nginx/sites-available
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - worker-2 # Edit this to be an actual kubernetes name of your server
