@@ -117,7 +117,7 @@ spec:
       initContainers:
         # This container installs the CNI network config file on each node.
         - name: install-sona-config
-          image: opensona/sona-cni:latest
+          image: oscar/sona-cni:latest
           imagePullPolicy: IfNotPresent
           command: ["/install-sona-config.sh"]
           env:
@@ -135,7 +135,7 @@ spec:
               name: sona-conf-dir
         # This container adds gateway related annotation to the kubernets nodes.
         - name: config-external
-          image: opensona/sona-cni:latest
+          image: oscar/sona-cni:latest
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]
           args:
@@ -152,7 +152,7 @@ spec:
         # This container checks the control plane (SONA) status. The container
         # exits without error only if the control plane state is in ON_BOARD.
         - name: check-control-plane
-          image: opensona/sona-cni:latest
+          image: oscar/sona-cni:latest
           imagePullPolicy: IfNotPresent
           command: ["/bin/bash","-c"]
           args:
@@ -169,7 +169,7 @@ spec:
       containers:
         # This container installs the CNI network config file on each node.
         - name: install-cni-config
-          image: opensona/sona-cni:latest
+          image: oscar/sona-cni:latest
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh","-c"]
           args:
@@ -190,7 +190,7 @@ spec:
               name: cni-net-dir
         # This container installs the CNI binaries on each node.
         - name: install-cni
-          image: opensona/sona-cni:latest
+          image: oscar/sona-cni:latest
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]
           args:
@@ -199,6 +199,9 @@ spec:
           volumeMounts:
             - mountPath: /host/opt/cni/bin
               name: cni-bin-dir
+            - name: cni-log-dir
+              mountPath: /var/log/sona/cni
+              readOnly: true
       volumes:
         # Used to install CNI.
         - name: cni-bin-dir
@@ -213,6 +216,9 @@ spec:
         - name: kube-config-file
           hostPath:
             path: /root/.kube/config
+        - name: cni-log-dir
+          hostPath:
+            path: /var/log/sona/cni
 
 ---
 apiVersion: v1
@@ -574,7 +580,7 @@ spec:
       # These containers are run during pod initialization
       initContainers:
       - name: onos-init
-        image: opensona/sona-cni:latest
+        image: oscar/sona-cni:latest
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c"] 
         args:
@@ -612,7 +618,7 @@ spec:
             subPath: check-atomix-status
       containers:
       - name: onos
-        image: opensona/onos-sona-nightly-docker:k8s
+        image: oscar/onos-sona-nightly-docker:k8s
         imagePullPolicy: IfNotPresent
         env:
         - name: JAVA_OPTS

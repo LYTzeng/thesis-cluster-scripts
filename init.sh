@@ -42,4 +42,4 @@ echo -n "modyfing master kubelet node ip ..."
 stderr=$(sudo sed -i "s/^Environment=KUBELET_EXTRA_ARGS=--node-ip=.*/Environment=KUBELET_EXTRA_ARGS=--node-ip=$MASTER_IP/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf && sudo systemctl daemon-reload && sudo systemctl restart kubelet)
 suc_or_fail "modifying-master-kubelet-env-var" $stderr
 
-kubectl taint nodes worker2 node-role.kubernetes.io/master-
+kubectl taint nodes worker-2 node-role.kubernetes.io/master-

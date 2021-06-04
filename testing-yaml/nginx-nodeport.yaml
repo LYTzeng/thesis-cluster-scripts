@@ -41,12 +41,15 @@ metadata:
   labels:
     name: nginx
 spec:
+  # type: ClusterIP
   type: NodePort
   ports:
     - protocol: TCP
       port: 80
+      targetPort: 80
       nodePort: 30080
       name: http
   selector:
     apps: nginx
-
+  # externalIPs:
+  #   - 192.168.60.3
