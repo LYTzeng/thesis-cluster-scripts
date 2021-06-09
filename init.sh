@@ -1,8 +1,8 @@
 #!/bin/bash
 
-MASTER_IP="172.30.0.51"
-WORKER1_IP="172.30.0.52"
-WORKER2_IP="172.30.0.54"
+MASTER_IP="172.16.0.1"
+WORKER1_IP="172.16.0.2"
+WORKER2_IP="172.16.0.3"
 
 RED='\033[0;31m'
 GREEN='\033[1;32m'
@@ -44,11 +44,11 @@ KUBEADM_JOIN=$( kubeadm token create --print-join-command )"--apiserver-advertis
 
 
 echo -n "joining worker1 ..."
-stderr=$(ssh -i ~/.ssh/worker1 oscar@$WORKER1_IP "eval "sudo $KUBEADM_JOIN"" 2>&1 > /dev/null)
+stderr=$(ssh -i ~/.ssh/worker1 oscar@$WORKER1_IP "eval "sudo $KUBEADM_JOIN" && mkdir -p /home/oscar/.kube" 2>&1 > /dev/null)
 suc_or_fail "joining-worker1" $stderr
 
 echo -n "joining worker2 ..."
-stderr=$(ssh -i ~/.ssh/worker2 oscar@$WORKER2_IP "eval "sudo $KUBEADM_JOIN"" 2>&1 > /dev/null)
+stderr=$(ssh -i ~/.ssh/worker2 oscar@$WORKER2_IP "eval "sudo $KUBEADM_JOIN" && mkdir -p /home/oscar/.kube" 2>&1 > /dev/null)
 suc_or_fail "joining-worker2" $stderr
 
 stderr=$(scp -i ~/.ssh/worker1 $HOME/.kube/config oscar@$WORKER1_IP:/home/oscar/.kube 2>&1 > /dev/null)

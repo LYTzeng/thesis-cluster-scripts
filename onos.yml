@@ -19,9 +19,9 @@ data:
     # Segment identifier of the network.
     segment_id = 100
     # External uplink interface name.
-    external_interface = eno2
+    external_interface = eth2 
     # External gateway IP address.
-    external_gateway_ip = 192.168.60.1
+    external_gateway_ip = 192.168.60.254
     # Service network CIDR.
     service_cidr = 10.96.0.0/12
     # Network Maximum Transmission Unit (MTU).
@@ -117,8 +117,8 @@ spec:
       initContainers:
         # This container installs the CNI network config file on each node.
         - name: install-sona-config
-          image: oscar/sona-cni:latest
-          imagePullPolicy: IfNotPresent
+          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          imagePullPolicy: Always 
           command: ["/install-sona-config.sh"]
           env:
             # Name of the SONA config file to create.
@@ -135,8 +135,8 @@ spec:
               name: sona-conf-dir
         # This container adds gateway related annotation to the kubernets nodes.
         - name: config-external
-          image: oscar/sona-cni:latest
-          imagePullPolicy: IfNotPresent
+          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          imagePullPolicy: Always
           command: ["/bin/sh", "-c"]
           args:
             - cat /host/etc/sona/sona-cni.conf;
@@ -152,8 +152,8 @@ spec:
         # This container checks the control plane (SONA) status. The container
         # exits without error only if the control plane state is in ON_BOARD.
         - name: check-control-plane
-          image: oscar/sona-cni:latest
-          imagePullPolicy: IfNotPresent
+          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          imagePullPolicy: Always
           command: ["/bin/bash","-c"]
           args:
             - /check-control-plane.sh;
@@ -169,8 +169,8 @@ spec:
       containers:
         # This container installs the CNI network config file on each node.
         - name: install-cni-config
-          image: oscar/sona-cni:latest
-          imagePullPolicy: IfNotPresent
+          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          imagePullPolicy: Always
           command: ["/bin/sh","-c"]
           args:
             - /install-cni-config.sh;
@@ -190,8 +190,8 @@ spec:
               name: cni-net-dir
         # This container installs the CNI binaries on each node.
         - name: install-cni
-          image: oscar/sona-cni:latest
-          imagePullPolicy: IfNotPresent
+          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          imagePullPolicy: Always
           command: ["/bin/sh", "-c"]
           args:
             - /install-cni.sh;
@@ -202,6 +202,8 @@ spec:
             - name: cni-log-dir
               mountPath: /var/log/sona/cni
               readOnly: true
+      imagePullSecrets:
+        - name: gitlab-sona-cni
       volumes:
         # Used to install CNI.
         - name: cni-bin-dir
@@ -513,7 +515,7 @@ spec:
       containers:
       - name: atomix
         image: opensona/atomix-docker:k8s
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: IfNotPresent 
         env:
         - name: JAVA_OPTS
           value: -Xmx2G
@@ -580,8 +582,8 @@ spec:
       # These containers are run during pod initialization
       initContainers:
       - name: onos-init
-        image: oscar/sona-cni:latest
-        imagePullPolicy: IfNotPresent
+        image: 172.30.0.2:5050/oscar/sona-cni:latest
+        imagePullPolicy: Always
         command: ["/bin/sh", "-c"] 
         args:
           - echo $CLUSTER_JSON > /tmp/cluster.json.tmp;
@@ -618,8 +620,8 @@ spec:
             subPath: check-atomix-status
       containers:
       - name: onos
-        image: oscar/onos-sona-nightly-docker:k8s
-        imagePullPolicy: IfNotPresent
+        image: 172.30.0.2:5050/oscar/onos-sona-nightly-docker:k8s
+        imagePullPolicy: Always
         env:
         - name: JAVA_OPTS
           value: -Xmx2G
@@ -659,6 +661,9 @@ spec:
           - name: config
             mountPath: /root/onos/config
             readOnly: true
+      imagePullSecrets:
+        - name: gitlab-onos-sona-nightly-docker
+        - name: gitlab-sona-cni
       volumes:
       - name: onos-probe-scripts
         configMap:
