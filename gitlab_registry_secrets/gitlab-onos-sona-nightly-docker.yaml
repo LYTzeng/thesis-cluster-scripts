@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJodHRwOi8vMTcyLjMwLjAuMjo1MDUwIjp7InVzZXJuYW1lIjoib3NjYXIiLCJwYXNzd29yZCI6IjVFSm1vZm5IeENHY1ppQVV3VHhVIiwiZW1haWwiOiJvc2NhcjIxN2JAZ21haWwuY29tIiwiYXV0aCI6ImIzTmpZWEk2TlVWS2JXOW1ia2g0UTBkaldtbEJWWGRVZUZVPSJ9fX0=
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: gitlab-onos-sona-nightly-docker
+  namespace: kube-system
+type: kubernetes.io/dockerconfigjson

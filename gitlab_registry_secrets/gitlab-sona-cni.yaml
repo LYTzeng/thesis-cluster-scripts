@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJodHRwOi8vMTcyLjMwLjAuMjo1MDUwIjp7InVzZXJuYW1lIjoib3NjYXIiLCJwYXNzd29yZCI6IjJqcllQcDJoeG9hZEdINEhkZjhaIiwiZW1haWwiOiJvc2NhcjIxN2JAZ21haWwuY29tIiwiYXV0aCI6ImIzTmpZWEk2TW1weVdWQndNbWg0YjJGa1IwZzBTR1JtT0ZvPSJ9fX0=
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: gitlab-sona-cni
+  namespace: kube-system
+type: kubernetes.io/dockerconfigjson
