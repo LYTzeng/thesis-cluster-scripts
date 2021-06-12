@@ -620,8 +620,7 @@ spec:
             subPath: check-atomix-status
       containers:
       - name: onos
-        # image: 172.30.0.2:5050/oscar/onos-sona-nightly-docker:k8s
-        image: 172.30.0.2:5050/oscar/onos:latest
+        image: 172.30.0.2:5050/oscar/onos-sona-nightly-docker:k8s
         imagePullPolicy: Always
         env:
         - name: JAVA_OPTS
