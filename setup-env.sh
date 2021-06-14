@@ -123,3 +123,20 @@ alias kgpow='kubectl get pods --watch'
 alias kgpoowide='kubectl get pods -o=wide'
 alias kgowide='kubectl get -o=wide'
 EOF
+
+#############################
+### Install pyenv and dependencies for ovs-tcpdump
+#############################
+
+source <(curl -L https://gist.githubusercontent.com/LYTzeng/b5d8c178bce3f35813dda06b8127a9c8/raw/12ed640dd7a9a7f1b55d9991c7236fdacdd041c6/install-pyenv-ubuntu.sh)
+alias pyenv="/home/$USER/.pyenv/bin/pyenv"
+eval "$(pyenv init --path)"
+pyenv install 3.6.9
+pyenv global 3.6.9
+pip install ovs netifaces
+standalong_py3=( ovs-tcpdump ovs-pcap )
+for file in "${standalong_py3[@]}"
+do
+  env_python_path='#!/usr/bin/env python3'
+  sudo sed -i "1s@.*@$env_python_path@" /usr/local/bin/$file
+done
