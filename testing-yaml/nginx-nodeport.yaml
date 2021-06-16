@@ -5,9 +5,9 @@
 #   name:  nginx
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
-  name: nginx-deployment
+  name: nginx-ds
   # namespace: nginx
   labels:
     apps: nginx
