@@ -26,10 +26,6 @@ data:
     service_cidr = 10.96.0.0/12
     # Network Maximum Transmission Unit (MTU).
     mtu = 1400
-    ###### SONA Mod Config ######
-    # External OvS IP addr
-    external_ovs_ip = 172.16.0.254
-    external_ovs_interface = eth1
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
