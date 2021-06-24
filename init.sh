@@ -3,6 +3,9 @@
 MASTER_IP="172.16.0.1"
 WORKER1_IP="172.16.0.2"
 WORKER2_IP="172.16.0.3"
+MASTER_MGMT_IP="172.30.0.240"
+WORKER1_MGMT_IP="172.30.0.241"
+WORKER2_MGMT_IP="172.30.0.242"
 
 RED='\033[0;31m'
 GREEN='\033[1;32m'
@@ -44,27 +47,27 @@ KUBEADM_JOIN=$( kubeadm token create --print-join-command )"--apiserver-advertis
 
 
 echo -n "joining worker1 ..."
-stderr=$(ssh -i ~/.ssh/worker1 oscar@$WORKER1_IP "eval "sudo $KUBEADM_JOIN" && mkdir -p /home/oscar/.kube" 2>&1 > /dev/null)
+stderr=$(ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval "sudo $KUBEADM_JOIN" && mkdir -p /home/oscar/.kube" 2>&1 > /dev/null)
 suc_or_fail "joining-worker1" $stderr
 
 echo -n "joining worker2 ..."
-stderr=$(ssh -i ~/.ssh/worker2 oscar@$WORKER2_IP "eval "sudo $KUBEADM_JOIN" && mkdir -p /home/oscar/.kube" 2>&1 > /dev/null)
+stderr=$(ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval "sudo $KUBEADM_JOIN" && mkdir -p /home/oscar/.kube" 2>&1 > /dev/null)
 suc_or_fail "joining-worker2" $stderr
 
-stderr=$(scp -i ~/.ssh/worker1 $HOME/.kube/config oscar@$WORKER1_IP:/home/oscar/.kube 2>&1 > /dev/null)
+stderr=$(scp -i ~/.ssh/worker1 $HOME/.kube/config oscar@$WORKER1_MGMT_IP:/home/oscar/.kube 2>&1 > /dev/null)
 suc_or_fail "copying-kubeconfig-to-worker1" $stderr
 
-stderr=$(scp -i ~/.ssh/worker2 $HOME/.kube/config oscar@$WORKER2_IP:/home/oscar/.kube 2>&1 > /dev/null)
+stderr=$(scp -i ~/.ssh/worker2 $HOME/.kube/config oscar@$WORKER2_MGMT_IP:/home/oscar/.kube 2>&1 > /dev/null)
 suc_or_fail "copying-kubeconfig-to-worker2" $stderr
 
 echo -n "modyfing worker1 kubelet node ip ..."
-stderr=$( ssh -i ~/.ssh/worker1 oscar@$WORKER1_IP "sudo sed -i "s/^Environment=KUBELET_EXTRA_ARGS=--node-ip=.*/Environment=KUBELET_EXTRA_ARGS=--node-ip=$WORKER1_IP/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf &&
+stderr=$( ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "sudo sed -i "s/^Environment=KUBELET_EXTRA_ARGS=--node-ip=.*/Environment=KUBELET_EXTRA_ARGS=--node-ip=$WORKER1_IP/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf &&
  sudo systemctl daemon-reload &&
  sudo systemctl restart kubelet" 2>&1 > /dev/null)
 suc_or_fail "modifying-worker1-kubelet-env-var" $stderr
 
 echo -n "modyfing worker2 kubelet node ip ..."
-stderr=$( ssh -i ~/.ssh/worker2 oscar@$WORKER2_IP "sudo sed -i "s/^Environment=KUBELET_EXTRA_ARGS=--node-ip=.*/Environment=KUBELET_EXTRA_ARGS=--node-ip=$WORKER2_IP/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf &&
+stderr=$( ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "sudo sed -i "s/^Environment=KUBELET_EXTRA_ARGS=--node-ip=.*/Environment=KUBELET_EXTRA_ARGS=--node-ip=$WORKER2_IP/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf &&
  sudo systemctl daemon-reload &&
  sudo systemctl restart kubelet" 2>&1 > /dev/null)
 suc_or_fail "modifying-worker2-kubelet-env-var" $stderr
