@@ -117,7 +117,7 @@ spec:
       initContainers:
         # This container installs the CNI network config file on each node.
         - name: install-sona-config
-          image: oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: IfNotPresent
           command: ["/install-sona-config.sh"]
           env:
@@ -135,7 +135,7 @@ spec:
               name: sona-conf-dir
         # This container adds gateway related annotation to the kubernets nodes.
         - name: config-external
-          image: oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]
           args:
@@ -152,7 +152,7 @@ spec:
         # This container checks the control plane (SONA) status. The container
         # exits without error only if the control plane state is in ON_BOARD.
         - name: check-control-plane
-          image: oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: IfNotPresent
           command: ["/bin/bash","-c"]
           args:
@@ -169,7 +169,7 @@ spec:
       containers:
         # This container installs the CNI network config file on each node.
         - name: install-cni-config
-          image: oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh","-c"]
           args:
@@ -190,7 +190,7 @@ spec:
               name: cni-net-dir
         # This container installs the CNI binaries on each node.
         - name: install-cni
-          image: oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]
           args:
@@ -580,7 +580,7 @@ spec:
       # These containers are run during pod initialization
       initContainers:
       - name: onos-init
-        image: oscar/sona-cni:latest
+        image: 172.30.0.2:5050/oscar/sona-cni:original
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c"] 
         args:
@@ -618,7 +618,7 @@ spec:
             subPath: check-atomix-status
       containers:
       - name: onos
-        image: oscar/onos-sona-nightly-docker:k8s
+        image: 172.30.0.2:5050/oscar/onos-sona-nightly-docker:original
         imagePullPolicy: IfNotPresent
         env:
         - name: JAVA_OPTS
