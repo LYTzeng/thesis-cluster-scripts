@@ -30,6 +30,7 @@ data:
     # External OvS IP addr
     external_ovs_ip = 172.16.0.254
     external_ovs_interface = eth1
+    management_interace = eth0
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
