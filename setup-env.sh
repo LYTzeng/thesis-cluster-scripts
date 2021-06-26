@@ -77,7 +77,7 @@ OVS_VERSION='2.10.7'
 
 curl -OL https://www.openvswitch.org/releases/openvswitch-${OVS_VERSION}.tar.gz
 tar xvzf openvswitch-${OVS_VERSION}.tar.gz
-cd openvswitch-${OVS_VERSION}.tar.gz
+cd openvswitch-${OVS_VERSION}
 sudo apt-get install -yq build-essential \
     fakeroot graphviz autoconf automake bzip2 debhelper dh-autoreconf libssl-dev \
     libtool openssl procps python-all python-qt4 python-twisted-conch python-zopeinterface \
@@ -100,6 +100,8 @@ sudo /sbin/modprobe openvswitch
 /sbin/lsmod | grep openvswitch
 echo -e '\nPATH=/usr/local/share/openvswitch/scripts:$PATH' | sudo tee -a /root/.bashrc
 sudo /usr/local/share/openvswitch/scripts/ovs-ctl start
+rm openvswitch-${OVS_VERSION}.tar.gz
+rm -rf openvswitch-${OVS_VERSION}
 
 #############################
 ### Useful Aliases
