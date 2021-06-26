@@ -92,8 +92,8 @@ sudo make modules_install
 config_file="/etc/depmod.d/openvswitch.conf"
 for module in datapath/linux/*.ko; do
   modname="$(basename ${module})"
-  echo "override ${modname%.ko} * extra" >> "$config_file"
-  echo "override ${modname%.ko} * weak-updates" >> "$config_file"
+  echo "override ${modname%.ko} * extra" | sudo tee -a "$config_file"
+  echo "override ${modname%.ko} * weak-updates" | sudo tee -a  "$config_file"
   done
 sudo depmod -a
 sudo /sbin/modprobe openvswitch
