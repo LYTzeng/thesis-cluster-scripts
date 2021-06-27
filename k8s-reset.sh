@@ -1,1 +1,2 @@
-./destroy.sh && ./init-sona.sh
+./destroy.sh
+./init-sona.sh
