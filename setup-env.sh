@@ -100,6 +100,7 @@ sudo /sbin/modprobe openvswitch
 /sbin/lsmod | grep openvswitch
 echo -e '\nPATH=/usr/local/share/openvswitch/scripts:$PATH' | sudo tee -a /root/.bashrc
 sudo /usr/local/share/openvswitch/scripts/ovs-ctl start
+cd ..
 rm openvswitch-${OVS_VERSION}.tar.gz
 rm -rf openvswitch-${OVS_VERSION}
 
@@ -108,6 +109,7 @@ rm -rf openvswitch-${OVS_VERSION}
 #############################
 cat >> /home/`whoami`/.bashrc << 'EOF'
 
+# useful aliases
 alias ovs-ctl='sudo env PATH=$PATH ovs-ctl'
 alias ovs-vsctl='sudo ovs-vsctl'
 alias ovs-ofctl='sudo ovs-ofctl -O OpenFlow14'
@@ -131,10 +133,15 @@ EOF
 #############################
 
 source <(curl -L https://gist.githubusercontent.com/LYTzeng/b5d8c178bce3f35813dda06b8127a9c8/raw/12ed640dd7a9a7f1b55d9991c7236fdacdd041c6/install-pyenv-ubuntu.sh)
-alias pyenv="/home/$USER/.pyenv/bin/pyenv"
+cat >> /home/`whoami`/.bashrc << 'EOF'
+
+# pyenv settings
+PATH=$PATH:/home/$USER/.pyenv/bin
 eval "$(pyenv init --path)"
-pyenv install 3.6.9
-pyenv global 3.6.9
+EOF
+source /home/`whoami`/.bashrc
+/home/$USER/.pyenv/bin/pyenv install 3.6.9
+/home/$USER/.pyenv/bin/pyenv global 3.6.9
 pip install ovs netifaces
 standalong_py3=( ovs-tcpdump ovs-pcap )
 for file in "${standalong_py3[@]}"
