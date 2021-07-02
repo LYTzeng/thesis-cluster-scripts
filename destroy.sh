@@ -1,7 +1,7 @@
 WORKER1_IP="172.16.0.2"
 WORKER2_IP="172.16.0.3"
-WORKER1_MGMT_IP="172.30.0.241"
-WORKER2_MGMT_IP="172.30.0.242"
+WORKER1_MGMT_IP="172.30.0.52"
+WORKER2_MGMT_IP="172.30.0.53"
 
 KUBEADM_RESET="sudo kubeadm reset -f"
 CLEAR_IPTABLES="sudo iptables -F ; sudo iptables -t nat -F ; sudo iptables -t mangle -F ; sudo iptables -X"
