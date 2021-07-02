@@ -98,6 +98,7 @@ for module in datapath/linux/*.ko; do
 sudo depmod -a
 sudo /sbin/modprobe openvswitch
 /sbin/lsmod | grep openvswitch
+echo -e '\nPATH=/usr/local/share/openvswitch/scripts:$PATH' | tee -a /home/`whoami`/.bashrc
 echo -e '\nPATH=/usr/local/share/openvswitch/scripts:$PATH' | sudo tee -a /root/.bashrc
 sudo /usr/local/share/openvswitch/scripts/ovs-ctl start
 cd ..
