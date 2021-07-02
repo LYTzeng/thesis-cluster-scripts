@@ -14,11 +14,11 @@ eval $CLEAR_IPTABLES
 ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $CLEAR_IPTABLES"
 ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $CLEAR_IPTABLES"
 
-CHANGE_OVSDB_PORT="sudo sed -i \'/set ovsdb-server \"\$DB_FILE\"/a \\        set \\\"\$\@\\\" --remote=ptcp:6650\' /usr/local/share/openvswitch/scripts/ovs-ctl && \
-sudo /usr/local/share/openvswitch/scripts/ovs-ctl restart"
-eval $CHANGE_OVSDB_PORT
-ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $CHANGE_OVSDB_PORT"
-ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $CHANGE_OVSDB_PORT"
+# CHANGE_OVSDB_PORT="sudo sed -i \'/set ovsdb-server \"\$DB_FILE\"/a \\        set \\\"\$\@\\\" --remote=ptcp:6650\' /usr/local/share/openvswitch/scripts/ovs-ctl && \
+# sudo /usr/local/share/openvswitch/scripts/ovs-ctl restart"
+# eval $CHANGE_OVSDB_PORT
+# ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $CHANGE_OVSDB_PORT"
+# ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $CHANGE_OVSDB_PORT"
 
 sudo rm -rf /root/.kube/config
 sudo mkdir -p /root/.kube
