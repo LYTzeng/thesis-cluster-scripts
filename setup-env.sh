@@ -150,3 +150,12 @@ do
   env_python_path='#!/usr/bin/env python3'
   sudo sed -i "1s@.*@$env_python_path@" /usr/local/bin/$file
 done
+
+#############################
+### Install kubens cli tool
+#############################
+KUBENS_URL='https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubens_v0.9.3_linux_x86_64.tar.gz'
+cd ~
+curl -sL $KUBENS_URL| tar xz
+sudo mv kubens /usr/local/bin
+rm LICENSE
