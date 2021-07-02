@@ -13,15 +13,16 @@ EXEC_ALL="${KUBEADM_RESET} ; ${CLEAR_IPTABLES} ; ${RM_KUBECONFIG} ; ${DEL_BR} ; 
 
 print_suc () {
     out=$( echo $1 | awk '{ gsub("-"," ",$1); print $1 }' )
-    printf "\r$out ... ${GREEN}[Success]${NC}🎉🎉\n"
+    printf "\r$out ... ${GREEN}[Success]${NC} 🎉🎉\n"
 }
 print_fail () {
-    printf "\r$1 ... ${MAGENTA}[Fail]${NC}💥💣💥\n"
+    printf "\r$1 ... ${MAGENTA}[Fail]${NC} 💥💣💥\n"
     args=("$@") 
     ELEMENTS=${#args[@]}
     for (( i=2;i<$ELEMENTS;i++)); do 
-        echo -ne "${MAGENTA}${args[${i}]}${NC}"
+        echo -ne "${MAGENTA}${args[${i}]}"
     done
+    echo -n "${NC}\n"
     return 127
 }
 suc_or_fail () {
