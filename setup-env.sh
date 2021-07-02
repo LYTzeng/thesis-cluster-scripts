@@ -30,7 +30,7 @@ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 # If you want to use docker without sudo, run the command below then exit and login again.
 sudo usermod -aG docker $USER
 
-cat > /etc/docker/daemon.json <<EOF
+sudo tee /etc/docker/daemon.json <<EOF
 {
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
@@ -53,14 +53,14 @@ sudo systemctl restart docker
 # Variables
 K8S_VER='1.17.17-00'
 
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+sudo tee /etc/sysctl.d/k8s.conf <<EOF
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 sudo sysctl --system
 sudo apt-get install -yq apt-transport-https curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo tee /etc/apt/sources.list.d/kubernetes.list <<EOF
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 sudo apt-get update -q

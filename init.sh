@@ -21,7 +21,7 @@ print_fail () {
     args=("$@") 
     ELEMENTS=${#args[@]}
     for (( i=2;i<$ELEMENTS;i++)); do 
-        echo -ne "${MAGENTA}${args[${i}]}"
+        echo -ne "${MAGENTA}${args[${i}]} "
     done
     echo -n "${NC}\n"
     return 127

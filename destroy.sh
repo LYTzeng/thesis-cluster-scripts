@@ -3,6 +3,12 @@ WORKER2_IP="172.16.0.3"
 WORKER1_MGMT_IP="172.30.0.52"
 WORKER2_MGMT_IP="172.30.0.53"
 
+RED='\033[0;31m'
+MAGENTA='\u001b[35m'
+GREEN='\033[1;32m'
+NC='\033[0m'
+YELLOW='\033[1;33m'
+
 KUBEADM_RESET="sudo kubeadm reset -f"
 CLEAR_IPTABLES="sudo iptables -F ; sudo iptables -t nat -F ; sudo iptables -t mangle -F ; sudo iptables -X"
 FLUSH_ROUTE="sudo ip route flush table main && sudo systemctl restart networking"
@@ -20,7 +26,7 @@ print_fail () {
     args=("$@") 
     ELEMENTS=${#args[@]}
     for (( i=2;i<$ELEMENTS;i++)); do 
-        echo -ne "${MAGENTA}${args[${i}]}"
+        echo -ne "${MAGENTA}${args[${i}]} "
     done
     echo -n "${NC}\n"
     return 127
