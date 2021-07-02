@@ -2,6 +2,7 @@ WORKER1_IP="172.16.0.2"
 WORKER2_IP="172.16.0.3"
 WORKER1_MGMT_IP="172.30.0.52"
 WORKER2_MGMT_IP="172.30.0.53"
+EXT_OVS_MGMT_IP="172.30.0.54"
 
 RED='\033[0;31m'
 MAGENTA='\u001b[35m'
@@ -48,3 +49,8 @@ suc_or_fail "reset-worker2" $stderr
 echo -n "reset master ..."
 stderr=$(eval $EXEC_ALL 2>&1 > /dev/null)
 suc_or_fail "reset-master" $stderr
+
+EXEC_ALL="${DEL_BR} ; ${FLUSH_ROUTE}"
+echo -n "reset external ovs ..."
+stderr=$(ssh oscar@$EXT_OVS_MGMT_IP "eval $EXEC_ALL" 2>&1 > /dev/null)
+suc_or_fail "reset-external-ovs" $stderr
