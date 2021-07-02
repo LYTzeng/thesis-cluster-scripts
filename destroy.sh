@@ -51,7 +51,13 @@ echo -n "reset master ..."
 stderr=$(eval $EXEC_ALL 2>&1 > /dev/null)
 suc_or_fail "reset-master" $stderr
 
-RECREATE_BR="sudo ovs-vsctl add-br kbr-int; sudo ovs-vsctl add-br kbr-ex"
+RECREATE_BR="sudo ovs-vsctl add-br kbr-int; sudo ovs-vsctl add-br kbr-ex ;\
+sudo ovs-vsctl add-port kbr-int eth1;\
+sudo ovs-vsctl add-port kbr-int eth2;\
+sudo ovs-vsctl add-port kbr-int eth3;\
+sudo ovs-vsctl add-port kbr-ex eth4;\
+sudo ovs-vsctl add-port kbr-ex eth5;\
+sudo ovs-vsctl add-port kbr-ex eth6"
 RESTART_NETWORKING="sudo systemctl restart networking"
 EXEC_ALL="${DEL_BR} ; ${RECREATE_BR} ; ${RESTART_NETWORKING}"
 echo -n "reset external ovs ..."
