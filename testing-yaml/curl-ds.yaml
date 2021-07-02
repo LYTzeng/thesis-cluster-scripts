@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox-ds
+  labels:
+    apps: busybox
+spec:
+  selector:
+    matchLabels:
+      apps: busybox
+  template:
+    metadata:
+      labels:
+        apps: busybox
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+      tolerations:
+        # Make sure pod gets scheduled on all nodes.
+        - effect: NoSchedule
+          operator: Exists
+      containers:
+      - name: busybox 
+        image: ellerbrock/alpine-bash-curl-ssl 
+        command: 
+          - sleep 
+          - "3600" 
+        imagePullPolicy: IfNotPresent 

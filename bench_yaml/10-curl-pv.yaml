@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: busybox-data-pvc
-  namespace: busybox
+  # namespace: busybox
 spec:
   storageClassName: local-storage
   accessModes:
@@ -15,7 +15,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: busybox-data
-  namespace: busybox
+  # namespace: busybox
 spec:
   capacity:
     storage: 10Gi

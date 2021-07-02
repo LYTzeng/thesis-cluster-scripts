@@ -26,12 +26,6 @@ data:
     service_cidr = 10.96.0.0/12
     # Network Maximum Transmission Unit (MTU).
     mtu = 1400
-    ###### SONA Mod Config ######
-    # External OvS IP addr
-    external_ovs_ip = 172.16.0.254
-    external_ovs_interface = eth1
-    management_interace = eth0
-    controller_ip = 172.30.0.51
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -123,7 +117,7 @@ spec:
       initContainers:
         # This container installs the CNI network config file on each node.
         - name: install-sona-config
-          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: Always 
           command: ["/install-sona-config.sh"]
           env:
@@ -141,7 +135,7 @@ spec:
               name: sona-conf-dir
         # This container adds gateway related annotation to the kubernets nodes.
         - name: config-external
-          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: Always
           command: ["/bin/sh", "-c"]
           args:
@@ -158,7 +152,7 @@ spec:
         # This container checks the control plane (SONA) status. The container
         # exits without error only if the control plane state is in ON_BOARD.
         - name: check-control-plane
-          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: Always
           command: ["/bin/bash","-c"]
           args:
@@ -175,7 +169,7 @@ spec:
       containers:
         # This container installs the CNI network config file on each node.
         - name: install-cni-config
-          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: Always
           command: ["/bin/sh","-c"]
           args:
@@ -196,7 +190,7 @@ spec:
               name: cni-net-dir
         # This container installs the CNI binaries on each node.
         - name: install-cni
-          image: 172.30.0.2:5050/oscar/sona-cni:latest
+          image: 172.30.0.2:5050/oscar/sona-cni:original
           imagePullPolicy: Always
           command: ["/bin/sh", "-c"]
           args:
@@ -588,7 +582,7 @@ spec:
       # These containers are run during pod initialization
       initContainers:
       - name: onos-init
-        image: 172.30.0.2:5050/oscar/sona-cni:latest
+        image: 172.30.0.2:5050/oscar/sona-cni:original
         imagePullPolicy: Always
         command: ["/bin/sh", "-c"] 
         args:
@@ -626,7 +620,7 @@ spec:
             subPath: check-atomix-status
       containers:
       - name: onos
-        image: 172.30.0.2:5050/oscar/onos-sona-nightly-docker:k8s
+        image: 172.30.0.2:5050/oscar/onos-sona-nightly-docker:original
         imagePullPolicy: Always
         env:
         - name: JAVA_OPTS

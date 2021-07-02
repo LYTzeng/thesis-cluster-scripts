@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod 
 metadata: 
   name: busybox 
-  namespace: busybox 
+  # namespace: busybox 
 spec: 
   volumes:
   - name: busybox-data 
@@ -27,4 +27,6 @@ spec:
             operator: In
             values:
             - worker-1 # Edit this to be an actual kubernetes name of your server
+            - worker-2
+            - master
   restartPolicy: Always
