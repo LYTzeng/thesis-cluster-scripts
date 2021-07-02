@@ -29,7 +29,7 @@ print_fail () {
     for (( i=2;i<$ELEMENTS;i++)); do 
         echo -ne "${MAGENTA}${args[${i}]} "
     done
-    echo -n "${NC}\n"
+    echo -ne "${NC}\n"
     return 127
 }
 suc_or_fail () {
