@@ -169,7 +169,11 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            - name: SONA_CONFIG_FILE_PATH
+              value: "/host/etc/sona/sona-cni.conf"
           volumeMounts:
+            - mountPath: /host/etc/sona
+              name: sona-conf-dir
             - mountPath: /root/.kube/config
               name: kube-config-file
       containers:
