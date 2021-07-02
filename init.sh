@@ -8,23 +8,28 @@ WORKER1_MGMT_IP="172.30.0.52"
 WORKER2_MGMT_IP="172.30.0.53"
 
 RED='\033[0;31m'
+CYAN='\u001b[36;1m'
 GREEN='\033[1;32m'
 NC='\033[0m'
 YELLOW='\033[1;33m'
 print_suc () {
     out=$( echo $1 | awk '{ gsub("-"," ",$1); print $1 }' )
-    printf "\r$out ... ${GREEN}[Success]${NC}\n"
+    printf "\r$out ... ${GREEN}[Success]${NC}🎉🎉\n"
 }
 print_fail () {
-    printf "\r$1 ... ${RED}[Fail]${NC}\n"
-    echo -e "${RED}$2${NC}"
+    printf "\r$1 ... ${CYAN}[Fail]${NC}💥💣💥\n"
+    args=("$@") 
+    ELEMENTS=${#args[@]}
+    for (( i=2;i<$ELEMENTS;i++)); do 
+        echo -e "${CYAN}${args[${i}]}${NC}"
+    done
     return 127
 }
 suc_or_fail () {
     if [[ $? -eq 0 || -z ${stderr} ]]; then
         print_suc $1
     else
-        print_fail $1 $2
+        print_fail $@
     fi
 }
 
