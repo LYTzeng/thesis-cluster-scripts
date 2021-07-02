@@ -318,7 +318,8 @@ data:
     
     while true
     do
-      check_str='curl -sL --user onos:rocks -w "%{http_code}\\n" "http://localhost:8181/onos/k8snetworking/network/exist/1" -o /dev/null'
+      #check_str='curl -sL --user onos:rocks -w "%{http_code}\\n" "http://localhost:8181/onos/k8snetworking/network/exist/1" -o /dev/null'
+      check_str='curl -sL --user onos:rocks -w "%{http_code}\\n" "http://localhost:8181/onos/ui" -o /dev/null'
       if [ $(eval $check_str) == "200" ];
       then
         break
@@ -782,7 +783,7 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
           - /tmp/check-sona-status ;
-            sleep 30
+            sleep 300
         volumeMounts:
           - name: sona-probe-scripts
             mountPath: /tmp/check-sona-status
