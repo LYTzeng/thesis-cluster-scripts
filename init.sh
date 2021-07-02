@@ -8,7 +8,7 @@ WORKER1_MGMT_IP="172.30.0.52"
 WORKER2_MGMT_IP="172.30.0.53"
 
 RED='\033[0;31m'
-CYAN='\u001b[36;1m'
+MAGENTA='\u001b[35m'
 GREEN='\033[1;32m'
 NC='\033[0m'
 YELLOW='\033[1;33m'
@@ -17,11 +17,11 @@ print_suc () {
     printf "\r$out ... ${GREEN}[Success]${NC}🎉🎉\n"
 }
 print_fail () {
-    printf "\r$1 ... ${CYAN}[Fail]${NC}💥💣💥\n"
+    printf "\r$1 ... ${MAGENTA}[Fail]${NC}💥💣💥\n"
     args=("$@") 
     ELEMENTS=${#args[@]}
     for (( i=2;i<$ELEMENTS;i++)); do 
-        echo -e "${CYAN}${args[${i}]}${NC}"
+        echo -ne "${MAGENTA}${args[${i}]}${NC}"
     done
     return 127
 }
