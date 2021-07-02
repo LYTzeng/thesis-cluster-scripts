@@ -23,10 +23,11 @@ print_suc () {
     printf "\r$out ... ${GREEN}[Success]${NC} 🎉🎉\n"
 }
 print_fail () {
-    printf "\r$1 ... ${MAGENTA}[Fail]${NC} 💥💣💥\n"
+    out=$( echo $1 | awk '{ gsub("-"," ",$1); print $1 }' )
+    printf "\r$out ... ${MAGENTA}[Fail]${NC} 💥💣💥\n"
     args=("$@") 
     ELEMENTS=${#args[@]}
-    for (( i=2;i<$ELEMENTS;i++)); do 
+    for (( i=1;i<$ELEMENTS;i++)); do 
         echo -ne "${MAGENTA}${args[${i}]} "
     done
     echo -ne "${NC}\n"
