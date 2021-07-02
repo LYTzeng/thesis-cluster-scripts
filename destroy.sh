@@ -52,7 +52,8 @@ stderr=$(eval $EXEC_ALL 2>&1 > /dev/null)
 suc_or_fail "reset-master" $stderr
 
 RECREATE_BR="sudo ovs-vsctl add-br kbr-int; sudo ovs-vsctl add-br kbr-ex"
-EXEC_ALL="${DEL_BR} ; ${RECREATE_BR} ; ${FLUSH_ROUTE}"
+RESTART_NETWORKING="sudo systemctl restart networking"
+EXEC_ALL="${DEL_BR} ; ${RECREATE_BR} ; ${RESTART_NETWORKING}"
 echo -n "reset external ovs ..."
 stderr=$(ssh oscar@$EXT_OVS_MGMT_IP "eval $EXEC_ALL" 2>&1 > /dev/null)
 suc_or_fail "reset-external-ovs" $stderr
