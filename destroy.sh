@@ -50,7 +50,8 @@ echo -n "reset master ..."
 stderr=$(eval $EXEC_ALL 2>&1 > /dev/null)
 suc_or_fail "reset-master" $stderr
 
-EXEC_ALL="${DEL_BR} ; ${FLUSH_ROUTE}"
+RECREATE_BR="sudo ovs-vsctl add-br kbr-int; sudo ovs-vsctl add-br kbr-ex"
+EXEC_ALL="${DEL_BR} ; ${RECREATE_BR} ; ${FLUSH_ROUTE}"
 echo -n "reset external ovs ..."
 stderr=$(ssh oscar@$EXT_OVS_MGMT_IP "eval $EXEC_ALL" 2>&1 > /dev/null)
 suc_or_fail "reset-external-ovs" $stderr
