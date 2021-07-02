@@ -11,6 +11,33 @@ DEL_BR="sudo ovs-vsctl del-br br-int ; sudo ovs-vsctl del-br br-local; sudo ovs-
 DEL_CNI="sudo rm /etc/cni/net.d/1-sona-net.conf"
 EXEC_ALL="${KUBEADM_RESET} ; ${CLEAR_IPTABLES} ; ${RM_KUBECONFIG} ; ${DEL_BR} ; ${FLUSH_ROUTE} ; ${DEL_CNI}"
 
-ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $EXEC_ALL"
-ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $EXEC_ALL"
-eval $EXEC_ALL 
+print_suc () {
+    out=$( echo $1 | awk '{ gsub("-"," ",$1); print $1 }' )
+    printf "\r$out ... ${GREEN}[Success]${NC}🎉🎉\n"
+}
+print_fail () {
+    printf "\r$1 ... ${MAGENTA}[Fail]${NC}💥💣💥\n"
+    args=("$@") 
+    ELEMENTS=${#args[@]}
+    for (( i=2;i<$ELEMENTS;i++)); do 
+        echo -ne "${MAGENTA}${args[${i}]}${NC}"
+    done
+    return 127
+}
+suc_or_fail () {
+    if [[ $? -eq 0 || -z ${stderr} ]]; then
+        print_suc $1
+    else
+        print_fail $@
+    fi
+}
+
+echo -n "reset worker1 ..."
+stderr=$(ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $EXEC_ALL" 2>&1 > /dev/null)
+suc_or_fail "reset-worker1" $stderr
+echo -n "reset worker2 ..."
+stderr=$(ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $EXEC_ALL" 2>&1 > /dev/null)
+suc_or_fail "reset-worker2" $stderr
+echo -n "reset master ..."
+stderr=$(eval $EXEC_ALL 2>&1 > /dev/null)
+suc_or_fail "reset-master" $stderr
