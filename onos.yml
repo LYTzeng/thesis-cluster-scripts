@@ -798,9 +798,6 @@ spec:
             curl -v --user onos:rocks -X POST -H "Content-Type:application/json" http://127.0.0.1:8181/onos/k8snode/configure/api -d @/tmp/onos_config.json ;
             /check-node-state.sh ;
             curl -v --user onos:rocks -X GET http://127.0.0.1:8181/onos/k8snetworking/management/sync/states ;
-            # curl -v --user onos:rocks -X GET http://127.0.0.1:8181/onos/k8snode/configure/init/all ;
-            # sleep 30 ;
-            # curl -v --user onos:rocks -X GET http://127.0.0.1:8181/onos/k8snetworking/management/sync/rules ;
             while true ; do sleep 10 ; done
         volumeMounts:
           - name: config-scripts
