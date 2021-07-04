@@ -1,0 +1,1 @@
+ip -o add | awk '$2 != "lo" && $3 == "inet" {print $2, $(NF-9)}'
