@@ -147,7 +147,7 @@ pip install ovs netifaces
 standalong_py3=( ovs-tcpdump ovs-pcap )
 for file in "${standalong_py3[@]}"
 do
-  env_python_path='#!/usr/bin/env python3'
+  env_python_path="#\!/home/$(whoami)/.pyenv/versions/3.6.9/bin/python"
   sudo sed -i "1s@.*@$env_python_path@" /usr/local/bin/$file
 done
 
