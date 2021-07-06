@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: iperf-data-pvc
-  namespace: iperf
+  # namespace: iperf
 spec:
   storageClassName: testfile-local-storage
   accessModes:
@@ -15,7 +15,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: iperf-data
-  namespace: iperf
+  # namespace: iperf
 spec:
   capacity:
     storage: 10Gi

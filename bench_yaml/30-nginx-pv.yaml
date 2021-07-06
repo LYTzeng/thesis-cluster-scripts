@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: nginx-test-file-pvc
-  namespace: nginx
+  # namespace: nginx
 spec:
   storageClassName: nginx-test-file
   accessModes:
@@ -15,7 +15,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: nginx-test-file
-  namespace: nginx
+  # namespace: nginx
 spec:
   capacity:
     storage: 10Gi
@@ -40,7 +40,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: nginx-conf-pvc
-  namespace: nginx
+  # namespace: nginx
 spec:
   storageClassName: nginx-conf
   accessModes:
@@ -53,7 +53,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: nginx-conf
-  namespace: nginx
+  # namespace: nginx
 spec:
   capacity:
     storage: 0.5Gi
@@ -78,7 +78,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: nginx-default-pvc
-  namespace: nginx
+  # namespace: nginx
 spec:
   storageClassName: nginx-default
   accessModes:
@@ -91,7 +91,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: nginx-default
-  namespace: nginx
+  # namespace: nginx
 spec:
   capacity:
     storage: 0.5Gi
