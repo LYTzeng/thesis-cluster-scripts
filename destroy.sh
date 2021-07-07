@@ -20,11 +20,11 @@ EXEC_ALL="${KUBEADM_RESET} ; ${CLEAR_IPTABLES} ; ${RM_KUBECONFIG} ; ${DEL_BR} ; 
 
 print_suc () {
     out=$( echo $1 | awk '{ gsub("-"," ",$1); print $1 }' )
-    printf "\r$out ... ${GREEN}[Success]${NC} 🎉🎉\n"
+    printf "\r$out ... ${GREEN}[Success]${NC} "'\360\237\216\211\n'
 }
 print_fail () {
     out=$( echo $1 | awk '{ gsub("-"," ",$1); print $1 }' )
-    printf "\r$out ... ${MAGENTA}[Fail]${NC} 💥💣💥\n"
+    printf "\r$out ... ${MAGENTA}[Fail]${NC} "'\360\237\222\243\n'
     args=("$@") 
     ELEMENTS=${#args[@]}
     for (( i=1;i<$ELEMENTS;i++)); do 

@@ -14,16 +14,17 @@ NC='\033[0m'
 YELLOW='\033[1;33m'
 print_suc () {
     out=$( echo $1 | awk '{ gsub("-"," ",$1); print $1 }' )
-    printf "\r$out ... ${GREEN}[Success]${NC} 🎉🎉\n"
+    printf "\r$out ... ${GREEN}[Success]${NC} "'\360\237\216\211\n'
 }
 print_fail () {
-    printf "\r$1 ... ${MAGENTA}[Fail]${NC} 💥💣💥\n"
+    out=$( echo $1 | awk '{ gsub("-"," ",$1); print $1 }' )
+    printf "\r$out ... ${MAGENTA}[Fail]${NC} "'\360\237\222\243\n'
     args=("$@") 
     ELEMENTS=${#args[@]}
-    for (( i=2;i<$ELEMENTS;i++)); do 
+    for (( i=1;i<$ELEMENTS;i++)); do 
         echo -ne "${MAGENTA}${args[${i}]} "
     done
-    echo -n "${NC}\n"
+    echo -ne "${NC}\n"
     return 127
 }
 suc_or_fail () {
