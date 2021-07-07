@@ -60,9 +60,9 @@ EXEC="${SET_LINK_UP};${ADD_MGMT_VLAN_PORT};${SET_MGMT_VLAN_INTF}"
 eval $EXEC
 
 
-MASTER_POD_PREFIX=$(kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}' | awk '{split($0,a," "); print a[1]}' | awk '{split($0,a,"."); print a[1]"."a[2]}"."a[3]')
-WORKER1_POD_PREFIX=$(kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}' | awk '{split($0,a," "); print a[2]}' | awk '{split($0,a,"."); print a[1]"."a[2]}"."a[3]')
-WORKER2_POD_PREFIX=$(kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}' | awk '{split($0,a," "); print a[3]}' | awk '{split($0,a,"."); print a[1]"."a[2]}"."a[3]')
+MASTER_POD_PREFIX=$(kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}' | awk '{split($0,a," "); split(a[1],b,"."); print b[1]"."b[2]"."b[3]}')
+WORKER1_POD_PREFIX=$(kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}' | awk '{split($0,a," "); split(a[2],b,"."); print b[1]"."b[2]"."b[3]}')
+WORKER2_POD_PREFIX=$(kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}' | awk '{split($0,a," "); split(a[3],b,"."); print b[1]"."b[2]"."b[3]}')
 
 MASTER_KBR_INT_IP=$MASTER_POD_PREFIX".1/24"
 WORKER1_KBR_INT_IP=$WORKER1_POD_PREFIX".1/24"
@@ -71,10 +71,10 @@ WORKER2_KBR_INT_IP=$WORKER2_POD_PREFIX".1/24"
 sudo ip a add $MASTER_KBR_INT_IP dev kbr-int
 
 SET_KBR_INT_IP="sudo ip a add $WORKER1_KBR_INT_IP dev kbr-int"
-ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $SET_KBR_INT_IP" 2>&1 > /dev/null
+ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $SET_KBR_INT_IP"
 
 SET_KBR_INT_IP="sudo ip a add $WORKER2_KBR_INT_IP dev kbr-int"
-ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $SET_KBR_INT_IP" 2>&1 > /dev/null
+ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $SET_KBR_INT_IP"
 
 
 SET_ROUTE="sudo ip r add 10.10.0.0/16 dev kbr-int proto static;\
