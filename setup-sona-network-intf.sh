@@ -36,6 +36,7 @@ suc_or_fail () {
 CERATE_KBR_INT_MGMT="sudo ovs-vsctl add-port kbr-int kbr-int-mgmt tag=10 -- set Interface kbr-int-mgmt type=internal"
 ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $CERATE_KBR_INT_MGMT" 2>&1 > /dev/null
 ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $CERATE_KBR_INT_MGMT" 2>&1 > /dev/null
+eval $CERATE_KBR_INT_MGMT
 
 GET_ETH1_IP=$CLUSTER_SCRIPTS_PATH"/show-ip.sh |grep eth1|awk '{split(\$0,a,\" \"); print a[2]}'"
 
