@@ -33,7 +33,7 @@ suc_or_fail () {
 }
 
 
-CERATE_KBR_INT_MGMT="sudo ovs-vsctl add-port kbr-int kbr-int-mgmt tag=10 -- set Interface type=internal"
+CERATE_KBR_INT_MGMT="sudo ovs-vsctl add-port kbr-int kbr-int-mgmt tag=10 -- set Interface kbr-int-mgmt type=internal"
 ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $CERATE_KBR_INT_MGMT" 2>&1 > /dev/null
 ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $CERATE_KBR_INT_MGMT" 2>&1 > /dev/null
 
