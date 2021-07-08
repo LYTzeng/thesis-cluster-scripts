@@ -47,7 +47,8 @@ sudo ovs-vsctl add-port kbr-int eth2;\
 sudo ovs-vsctl add-port kbr-int eth3;\
 sudo ovs-vsctl add-port kbr-ex eth4;\
 sudo ovs-vsctl add-port kbr-ex eth5;\
-sudo ovs-vsctl add-port kbr-ex eth6"
+sudo ovs-vsctl add-port kbr-ex eth6;\
+sudo ovs-vsctl add-port kbr-ex eth7"
 RESTART_NETWORKING="sudo systemctl restart networking"
 EXEC_ALL="${DEL_BR} ; ${RECREATE_BR} ; ${RESTART_NETWORKING}"
 echo -n "reset external ovs ..."

@@ -19,7 +19,7 @@ data:
     # Segment identifier of the network.
     segment_id = 100
     # External uplink interface name.
-    external_interface = eth2 
+    external_interface = eth7 
     # External gateway IP address.
     external_gateway_ip = 192.168.60.254
     # Service network CIDR.
