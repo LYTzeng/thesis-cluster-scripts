@@ -44,7 +44,7 @@ WORKER1_ETH1_IP=$(ssh -i ~/.ssh/worker1 oscar@$WORKER1_MGMT_IP "eval $GET_ETH1_I
 WORKER2_ETH1_IP=$(ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $GET_ETH1_IP")
 MASTER_ETH1_IP=$(eval $GET_ETH1_IP)
 
-SET_LINK_UP="sudo ip l set up dev kbr-int;sudo ip l set up dev kbr-ex;sudo ip l set up dev kbr-local;sudo ip l set up dev kbr-int-mgmt"
+SET_LINK_UP="sudo ip l set up dev kbr-int;sudo ip l set up dev kbr-local;sudo ip l set up dev kbr-int-mgmt"
 ADD_MGMT_VLAN_PORT="sudo ovs-vsctl add-port kbr-int kbr-int-mgmt"
 
 SET_MGMT_VLAN_INTF="sudo ip a del $WORKER1_ETH1_IP dev eth1 && sudo ip a add $WORKER1_ETH1_IP dev kbr-int-mgmt"
@@ -56,7 +56,8 @@ EXEC="${SET_LINK_UP};${ADD_MGMT_VLAN_PORT};${SET_MGMT_VLAN_INTF}"
 ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $EXEC" 2>&1 > /dev/null
 
 SET_MGMT_VLAN_INTF="sudo ip a del $MASTER_ETH1_IP dev eth1 && sudo ip a add $MASTER_ETH1_IP dev kbr-int-mgmt"
-EXEC="${SET_LINK_UP};${ADD_MGMT_VLAN_PORT};${SET_MGMT_VLAN_INTF}"
+ACTIVATE_EXT_BR="sudo ip l set up dev kbr-ex"
+EXEC="${SET_LINK_UP};${ACTIVATE_EXT_BR};${ADD_MGMT_VLAN_PORT};${SET_MGMT_VLAN_INTF}"
 eval $EXEC
 
 
