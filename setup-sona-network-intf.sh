@@ -56,8 +56,7 @@ EXEC="${SET_LINK_UP};${ADD_MGMT_VLAN_PORT};${SET_MGMT_VLAN_INTF}"
 ssh -i ~/.ssh/worker2 oscar@$WORKER2_MGMT_IP "eval $EXEC" 2>&1 > /dev/null
 
 SET_MGMT_VLAN_INTF="sudo ip a del $MASTER_ETH1_IP dev eth1 && sudo ip a add $MASTER_ETH1_IP dev kbr-int-mgmt"
-ACTIVATE_EXT_BR="sudo ip l set up dev kbr-ex"
-EXEC="${SET_LINK_UP};${ACTIVATE_EXT_BR};${ADD_MGMT_VLAN_PORT};${SET_MGMT_VLAN_INTF}"
+EXEC="${SET_LINK_UP};${ADD_MGMT_VLAN_PORT};${SET_MGMT_VLAN_INTF}"
 eval $EXEC
 
 
