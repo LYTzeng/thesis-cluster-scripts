@@ -16,6 +16,8 @@ spec:
     volumeMounts:
       - name: iperf-data
         mountPath: /test_files
+    ports:
+      - containerPort: 5201
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
