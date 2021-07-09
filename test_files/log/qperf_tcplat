@@ -1,0 +1,125 @@
+[Test 1]
+tcp_lat:
+    latency  =  228 us
+tcp_lat:
+    latency  =  227 us
+tcp_lat:
+    latency  =  246 us
+tcp_lat:
+    latency  =  283 us
+tcp_lat:
+    latency  =  265 us
+tcp_lat:
+    latency  =  247 us
+tcp_lat:
+    latency  =  288 us
+tcp_lat:
+    latency  =  259 us
+tcp_lat:
+    latency  =  428 us
+tcp_lat:
+    latency  =  471 us
+tcp_lat:
+    latency  =  643 us
+tcp_lat:
+    latency  =  979 us
+[Test 2]
+tcp_lat:
+    latency  =  239 us
+tcp_lat:
+    latency  =  226 us
+tcp_lat:
+    latency  =  220 us
+tcp_lat:
+    latency  =  216 us
+tcp_lat:
+    latency  =  236 us
+tcp_lat:
+    latency  =  257 us
+tcp_lat:
+    latency  =  290 us
+tcp_lat:
+    latency  =  258 us
+tcp_lat:
+    latency  =  421 us
+tcp_lat:
+    latency  =  437 us
+tcp_lat:
+    latency  =  639 us
+tcp_lat:
+    latency  =  977 us
+[Test 3]
+tcp_lat:
+    latency  =  219 us
+tcp_lat:
+    latency  =  223 us
+tcp_lat:
+    latency  =  229 us
+tcp_lat:
+    latency  =  234 us
+tcp_lat:
+    latency  =  221 us
+tcp_lat:
+    latency  =  232 us
+tcp_lat:
+    latency  =  290 us
+tcp_lat:
+    latency  =  381 us
+tcp_lat:
+    latency  =  402 us
+tcp_lat:
+    latency  =  486 us
+tcp_lat:
+    latency  =  642 us
+tcp_lat:
+    latency  =  965 us
+[Test 4]
+tcp_lat:
+    latency  =  207 us
+tcp_lat:
+    latency  =  221 us
+tcp_lat:
+    latency  =  237 us
+tcp_lat:
+    latency  =  264 us
+tcp_lat:
+    latency  =  227 us
+tcp_lat:
+    latency  =  257 us
+tcp_lat:
+    latency  =  298 us
+tcp_lat:
+    latency  =  255 us
+tcp_lat:
+    latency  =  429 us
+tcp_lat:
+    latency  =  499 us
+tcp_lat:
+    latency  =  643 us
+tcp_lat:
+    latency  =  978 us
+[Test 5]
+tcp_lat:
+    latency  =  233 us
+tcp_lat:
+    latency  =  235 us
+tcp_lat:
+    latency  =  210 us
+tcp_lat:
+    latency  =  216 us
+tcp_lat:
+    latency  =  233 us
+tcp_lat:
+    latency  =  261 us
+tcp_lat:
+    latency  =  292 us
+tcp_lat:
+    latency  =  259 us
+tcp_lat:
+    latency  =  413 us
+tcp_lat:
+    latency  =  455 us
+tcp_lat:
+    latency  =  642 us
+tcp_lat:
+    latency  =  977 us
