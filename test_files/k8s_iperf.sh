@@ -2,7 +2,7 @@
 # Usage:
 # ./k8s_iperf.sh ip-address
 
-iperf_log_file=~/iperf3_log/$(date +%s)k8s_pod_to_pod_t600_A0-7_w256k_l128k
+iperf_log_file=/test_files/iperf3_log/$(date +%s)k8s_pod_to_pod_t600_A0-7_w256k_l128k
 touch $iperf_log_file
 ip=$1
 for i in {1..10};do
