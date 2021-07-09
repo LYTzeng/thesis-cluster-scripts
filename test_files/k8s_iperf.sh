@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Usage:
 # ./k8s_iperf.sh ip-address
 
