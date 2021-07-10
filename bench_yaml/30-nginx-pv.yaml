@@ -35,6 +35,19 @@ spec:
           - worker-1 # Edit this to be an actual kubernetes name of your server
           - worker-2 # Edit this to be an actual kubernetes name of your server
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nginx-conf-pvc
+  namespace: nginx
+spec:
+  storageClassName: nginx-conf
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 0.5Gi
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -59,6 +72,19 @@ spec:
           values:
           - worker-1 # Edit this to be an actual kubernetes name of your server
           - worker-2 # Edit this to be an actual kubernetes name of your server
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nginx-default-pvc
+  namespace: nginx
+spec:
+  storageClassName: nginx-default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 0.5Gi
 ---
 apiVersion: v1
 kind: PersistentVolume
