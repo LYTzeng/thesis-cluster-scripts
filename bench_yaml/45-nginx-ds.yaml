@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-ds
+  labels:
+    apps: nginx
+spec:
+  selector:
+    matchLabels:
+      apps: nginx
+  template:
+    metadata:
+      labels:
+        apps: nginx
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+      tolerations:
+        # Make sure pod gets scheduled on all nodes.
+        - effect: NoSchedule
+          operator: Exists
+      containers: 
+        - name: nginx 
+          image: nginx
+          imagePullPolicy: IfNotPresent 
+          volumeMounts:
+            - name: nginx-test-file
+              mountPath: /home/oscar/curl_test_file
+              readOnly: true
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+            - name: nginx-default
+              mountPath: /etc/nginx/sites-enabled/default
+              subPath: default
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: nginx-test-file
+          persistentVolumeClaim:
+            claimName: nginx-test-file-pvc
+        - name: nginx-conf
+          persistentVolumeClaim:
+            claimName: nginx-conf-pvc
+        - name: nginx-default
+          persistentVolumeClaim:
+            claimName: nginx-default-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    apps: nginx
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: 30080
+      name: http
+  selector:
+    apps: nginx
