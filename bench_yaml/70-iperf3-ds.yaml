@@ -46,32 +46,44 @@ spec:
       nodePort: 30000
   selector:
     apps: iperf-server
+
 ---
-apiVersion: v1 
-kind: Pod 
-metadata: 
-  name: iperf-client 
-  # namespace: iperf 
-spec: 
-  volumes:
-  - name: iperf-data 
-    persistentVolumeClaim:
-      claimName: iperf-data-pvc
-  containers: 
-  - name: client
-    image: networkstatic/iperf3
-    command: ['/bin/sh', '-c', 'sleep infinity']
-    imagePullPolicy: IfNotPresent 
-    volumeMounts:
-      - name: iperf-data
-        mountPath: /test_files
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: kubernetes.io/hostname
-            operator: In
-            values:
-            - worker-2 # Worker runs iperf client
-  restartPolicy: Always
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: iperf-client
+  labels:
+    apps: iperf-client
+spec:
+  selector:
+    matchLabels:
+      apps: iperf-client
+  template:
+    metadata:
+      labels:
+        apps: iperf-client
+    spec: 
+      volumes:
+      - name: iperf-data 
+        persistentVolumeClaim:
+          claimName: iperf-data-pvc
+      containers: 
+      - name: client
+        image: networkstatic/iperf3
+        command: ['/bin/sh', '-c', 'sleep infinity']
+        imagePullPolicy: IfNotPresent 
+        volumeMounts:
+          - name: iperf-data
+            mountPath: /test_files
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - worker-1
+                - worker-2
+                - master
