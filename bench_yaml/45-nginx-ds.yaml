@@ -15,10 +15,6 @@ spec:
     spec:
       nodeSelector:
         beta.kubernetes.io/os: linux
-      tolerations:
-        # Make sure pod gets scheduled on all nodes.
-        - effect: NoSchedule
-          operator: Exists
       containers: 
         - name: nginx 
           image: nginx
