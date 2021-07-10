@@ -24,12 +24,10 @@ spec:
               mountPath: /home/oscar/curl_test_file
               readOnly: true
             - name: nginx-conf
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
+              mountPath: /etc/nginx
               readOnly: true
             - name: nginx-default
-              mountPath: /etc/nginx/sites-enabled/default
-              subPath: default
+              mountPath: /etc/nginx/sites-enabled
               readOnly: true
       restartPolicy: Always
       volumes:
