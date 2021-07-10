@@ -43,7 +43,7 @@ spec:
   ports:
     - protocol: TCP
       port: 5201
-      nodePort: 35201
+      nodePort: 30000
   selector:
     apps: iperf-server
 ---
