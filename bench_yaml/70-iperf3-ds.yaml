@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: iperf-server
+  labels:
+    apps: iperf-server
+spec:
+  selector:
+    matchLabels:
+      apps: iperf-server
+  template:
+    metadata:
+      labels:
+        apps: iperf-server
+    spec:
+      containers: 
+      - name: server 
+        image: networkstatic/iperf3
+        args: ['-s']
+        ports:
+        - containerPort: 5201
+          name: server
+        imagePullPolicy: IfNotPresent 
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - worker-1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iperf-server
+  # namespace: nginx
+  labels:
+    name: iperf-server
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 5201
+      nodePort: 35201
+  selector:
+    apps: iperf-server
+---
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: iperf-client 
+  # namespace: iperf 
+spec: 
+  volumes:
+  - name: iperf-data 
+    persistentVolumeClaim:
+      claimName: iperf-data-pvc
+  containers: 
+  - name: client
+    image: networkstatic/iperf3
+    command: ['/bin/sh', '-c', 'sleep infinity']
+    imagePullPolicy: IfNotPresent 
+    volumeMounts:
+      - name: iperf-data
+        mountPath: /test_files
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - worker-2 # Worker runs iperf client
+  restartPolicy: Always
