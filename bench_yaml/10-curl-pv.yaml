@@ -35,3 +35,5 @@ spec:
           operator: In
           values:
           - worker-1 # Edit this to be an actual kubernetes name of your server
+          - worker-2 # Edit this to be an actual kubernetes name of your server
+          - master # Edit this to be an actual kubernetes name of your server

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox
+  labels:
+    apps: busybox
+spec:
+  selector:
+    matchLabels:
+      apps: busybox
+  template:
+    metadata:
+      labels:
+        apps: busybox
+    spec:
+      volumes:
+      - name: busybox-data 
+        persistentVolumeClaim:
+          claimName: busybox-data-pvc
+      containers: 
+      - name: busybox 
+        image: ellerbrock/alpine-bash-curl-ssl 
+        command: 
+          - sleep 
+          - "3600" 
+        imagePullPolicy: IfNotPresent 
+        volumeMounts:
+          - name: busybox-data
+            mountPath: /test_files
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - worker-1
+                - worker-2
+                - master
