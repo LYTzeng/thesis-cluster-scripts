@@ -39,7 +39,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: nginx-conf-pvc
-  namespace: nginx
 spec:
   storageClassName: nginx-conf
   accessModes:
@@ -77,7 +76,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: nginx-default-pvc
-  namespace: nginx
 spec:
   storageClassName: nginx-default
   accessModes:
