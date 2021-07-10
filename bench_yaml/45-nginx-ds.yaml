@@ -35,7 +35,7 @@ spec:
       volumes:
         - name: nginx-test-file
           persistentVolumeClaim:
-            claimName: nginx-test-file-pvc
+            claimName: nginx-data-pvc
         - name: nginx-conf
           persistentVolumeClaim:
             claimName: nginx-conf-pvc
