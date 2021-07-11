@@ -71,40 +71,40 @@ spec:
           values:
           - worker-1 # Edit this to be an actual kubernetes name of your server
           - worker-2 # Edit this to be an actual kubernetes name of your server
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: nginx-default-pvc
-spec:
-  storageClassName: nginx-default
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 0.5Gi
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nginx-default
-spec:
-  capacity:
-    storage: 10Gi
-  volumeMode: Filesystem
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
-  storageClassName: nginx-default
-  local:
-    # Edit this to be an actual path on your server's filesystem
-    path: /etc/nginx/sites-enabled
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - worker-1 # Edit this to be an actual kubernetes name of your server
-          - worker-2 # Edit this to be an actual kubernetes name of your server
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: nginx-default-pvc
+# spec:
+#   storageClassName: nginx-default
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 0.5Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: nginx-default
+# spec:
+#   capacity:
+#     storage: 10Gi
+#   volumeMode: Filesystem
+#   accessModes:
+#   - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Delete
+#   storageClassName: nginx-default
+#   local:
+#     # Edit this to be an actual path on your server's filesystem
+#     path: /etc/nginx/sites-enabled
+#   nodeAffinity:
+#     required:
+#       nodeSelectorTerms:
+#       - matchExpressions:
+#         - key: kubernetes.io/hostname
+#           operator: In
+#           values:
+#           - worker-1 # Edit this to be an actual kubernetes name of your server
+#           - worker-2 # Edit this to be an actual kubernetes name of your server

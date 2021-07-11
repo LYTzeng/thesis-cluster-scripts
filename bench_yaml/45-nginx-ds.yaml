@@ -24,13 +24,12 @@ spec:
               mountPath: /home/oscar/curl_test_file
               readOnly: true
             - name: nginx-conf
-              mountPath: /etc/nginx/
-              subPath: nginx.conf
+              mountPath: /etc/nginx
               readOnly: true
-            - name: nginx-default
-              mountPath: /etc/nginx/sites-enabled/
-              subPath: default
-              readOnly: true
+            # - name: nginx-default
+            #   mountPath: /etc/nginx/sites-enabled/default
+            #   subPath: default
+            #   readOnly: true
       restartPolicy: Always
       volumes:
         - name: nginx-test-file
@@ -39,9 +38,9 @@ spec:
         - name: nginx-conf
           persistentVolumeClaim:
             claimName: nginx-conf-pvc
-        - name: nginx-default
-          persistentVolumeClaim:
-            claimName: nginx-default-pvc
+        # - name: nginx-default
+        #   persistentVolumeClaim:
+        #     claimName: nginx-default-pvc
 ---
 apiVersion: v1
 kind: Service
