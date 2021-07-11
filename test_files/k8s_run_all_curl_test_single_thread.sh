@@ -6,18 +6,18 @@ for e in ${test_files[@]};do
 	echo "Testing filesize: $e"
 	results=()
 	result_pair=()
-	for n in {1..5};do
+	for n in {1..6};do
 		# echo "n=$n"
 		result_pair=$(curl -o /dev/null -s -H 'Cache-Control: no-cache' -w "%{time_starttransfer} %{time_total} \n" $target_ip/$e)
 		results[n]=$result_pair
 	done
 	echo "Avg. TTFB"
-	for n in {1..5};do
+	for n in {2..5};do
 		IFS=', ' read -r -a array <<< ${results[n]}
 		echo ${array[0]}
 	done
 	echo "Avg. JCT"
-	for n in {1..5};do
+	for n in {2..5};do
 		IFS=', ' read -r -a array <<< ${results[n]}
 		echo ${array[1]}
 	done

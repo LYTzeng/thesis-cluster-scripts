@@ -11,17 +11,17 @@ for e in $test_files;do
 
 	echo "Testing filesize: $e"
 	results=()
-	for n in {1..5};do
+	for n in {1..6};do
 		# echo "n=$n"
 		results[n]=$(./curl-pN-4k8s.sh k8s_curl_test_list/$e 8)
 	done
 	echo "Avg. TTFB"
-	for n in {1..5};do
+	for n in {2..5};do
 		IFS=', ' read -r -a array <<< ${results[n]}
 		echo ${array[0]}
 	done
 	echo "Avg. JCT"
-	for n in {1..5};do
+	for n in {2..5};do
 		IFS=', ' read -r -a array <<< ${results[n]}
 		echo ${array[1]}
 	done
