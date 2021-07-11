@@ -12,12 +12,12 @@ for e in ${test_files[@]};do
 		results[n]=$result_pair
 	done
 	echo "Avg. TTFB"
-	for n in {2..5};do
+	for n in {2..6};do
 		IFS=', ' read -r -a array <<< ${results[n]}
 		echo ${array[0]}
 	done
 	echo "Avg. JCT"
-	for n in {2..5};do
+	for n in {2..6};do
 		IFS=', ' read -r -a array <<< ${results[n]}
 		echo ${array[1]}
 	done
