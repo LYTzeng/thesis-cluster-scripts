@@ -7,7 +7,7 @@ for e in ${test_files[@]};do
 	result_pair=()
 	for n in {1..5};do
 		# echo "n=$n"
-		result_pair=$(curl -o /dev/null -s -H 'Cache-Control: no-cache' -w "%{time_starttransfer} %{time_total} \n" 192.168.60.3/$e)
+		result_pair=$(curl -o /dev/null -s -H 'Cache-Control: no-cache' -w "%{time_starttransfer} %{time_total} \n" 192.168.60.2/$e)
 		results[n]=$result_pair
 	done
 	echo "Avg. TTFB"
