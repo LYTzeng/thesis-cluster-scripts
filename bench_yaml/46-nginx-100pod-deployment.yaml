@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 100
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        imagePullPolicy: IfNotPresent 
+        volumeMounts:
+          - name: nginx-test-file
+            mountPath: /home/oscar/curl_test_file
+            readOnly: true
+          - name: nginx-conf
+            mountPath: /etc/nginx
+            readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: nginx-test-file
+          persistentVolumeClaim:
+            claimName: nginx-data-pvc
+        - name: nginx-conf
+          persistentVolumeClaim:
+            claimName: nginx-conf-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-dep
+  labels:
+    app: nginx
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: 30080
+      name: http
+  selector:
+    app: nginx
