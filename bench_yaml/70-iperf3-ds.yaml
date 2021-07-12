@@ -42,9 +42,11 @@ spec:
   type: NodePort
   ports:
     - protocol: TCP
+      name: tcp
       port: 5201
       nodePort: 30000
     - protocol: UDP
+      name: udp
       port: 5201
       nodePort: 30000
   selector:
