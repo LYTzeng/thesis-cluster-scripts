@@ -3642,7 +3642,7 @@ spec:
               value: "autodetect"
             # Set IP detection method to reach ovs
             - name: IP_AUTODETECTION_METHOD
-              value: can-reach=192.168.60.1 # IP of ovs br0
+              value: can-reach=192.168.60.254 # IP of ovs br0
             # Enable IPIP
             - name: CALICO_IPV4POOL_IPIP
               value: "Always"
