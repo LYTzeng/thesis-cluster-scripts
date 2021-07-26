@@ -14,6 +14,8 @@
 
 sudo iptables -A FORWARD -d 192.168.60.254/32 -p tcp -m tcp --dport 30000 -j ACCEPT
 sudo iptables -A FORWARD -s 192.168.60.254/32 -p tcp -m tcp --dport 30000 -j ACCEPT
+sudo iptables -A FORWARD -d 192.168.60.254/32 -p udp -m tcp --dport 30000 -j ACCEPT
+sudo iptables -A FORWARD -s 192.168.60.254/32 -p udp -m tcp --dport 30000 -j ACCEPT
 
 sudo iptables -t nat -A POSTROUTING -s 192.168.60.10/32 -o eth5 -j SNAT --to-source 192.168.60.254
 sudo iptables -t nat -A POSTROUTING -d 192.168.60.254/32 -p tcp -m tcp --dport 30000 -j SNAT --to-source 192.168.60.10
