@@ -1,8 +1,8 @@
 WORKER1_IP="172.16.0.2"
 WORKER2_IP="172.16.0.3"
-WORKER1_MGMT_IP="172.30.0.52"
-WORKER2_MGMT_IP="172.30.0.53"
-EXT_OVS_MGMT_IP="172.30.0.54"
+WORKER1_MGMT_IP="172.30.0.241"
+WORKER2_MGMT_IP="172.30.0.242"
+EXT_OVS_MGMT_IP="172.30.0.243"
 
 DEL_BR="sudo ovs-vsctl del-br br-int ; sudo ovs-vsctl del-br br-local; sudo ovs-vsctl del-br kbr-local;sudo ovs-vsctl del-br kbr-ex;sudo ovs-vsctl del-br kbr-int"
 RESTART_NET='sudo systemctl restart networking'
