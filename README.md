@@ -163,6 +163,8 @@ sona-onos-config-0               1/1     Running             0          2m51s
 3. `cluster-scripts`: 為了應付極度重複操作的眾多指令，我把他們寫成腳本以利快速執行
 4. `sona-cni`: 用 Python 撰寫的 CNI，同時包含在各節點執行的、有設置每個節點網路功能的Init containers，一樣是 build 完推送到 Git;ab container registry
 
+四個專案在此：https://netlab.csie.ntut.edu.tw:8878/explore/projects?tag=%E5%9A%B4%E5%9A%B4%E8%AB%96%E6%96%87
+
 `onos`、`onos-sona-nightly-docker`和`sona-cni`在 Netlab 的 Gitlab 上我都有建立 build container 的 Pipeline，自動建立容器映像檔。
 
 如果要查看 `onos` 專案程式碼在本論文有修改的地方，請使用這個往只在Gitlab查看修改差異：https://netlab.csie.ntut.edu.tw:8878/oscar/onos/-/compare/onos-1.15...onos-1.15-mod?from_project_id=18
