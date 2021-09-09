@@ -2,9 +2,17 @@
 
 # 使用說明
 
-本使用說明是 Markdown 格式撰寫，建議用 IDE 開啟預覽，或是到 <!-- TODO: --> 查看，以享有最佳的閱讀體驗。
+本使用說明是 Markdown 格式撰寫，建議用 IDE 開啟預覽，或是到[這裡](https://github.com/LYTzeng/thesis-cluster-scripts)查看，以享有最佳的閱讀體驗。
 
 ## 實驗拓樸、界面名稱和 IP
+
+如果沒有要使用實體機器測試效能的話，紙測試架構可行性可使用 [EVE-NG](https://www.eve-ng.net)模擬器建立拓樸。EVE-NG 魔體器的特色在於可以將字型安裝好的虛擬機器移植近來並自訂網路界面及拓樸。
+- [eve-ng 使用說明](https://www.eve-ng.net/index.php/documentation/community-cookbook/)
+
+下圖為 EVE-NG 中的拓樸圖，注意網路界面的名稱，在下表有詳細對照。
+Ubuntu 中的 Interface name 與 所有ip位址必須和表中相同，因設定檔複雜，我不希望你能找出所有IP做修改，不如將整個架構連帶IP給照抄重建。
+
+![](/img/struct.png)
 
 | hostname | IP           | interface | eve-ng上顯示的界面 | usage                       |
 | -------- | ------------ | --------- | ------------------ | --------------------------- |
@@ -154,6 +162,21 @@ sona-onos-config-0               1/1     Running             0          2m51s
 
 執行完畢後，會重新砍掉並建立一個乾淨的、未安裝CNI的 K8S Cluster，接著就可以選擇在嘗試本論文的架構或是原本的 SONA-CNI
 
+## Option 2: 套用原始(未修改的) SONA-CNI
+
+### Set up
+
+```sh
+kubectl apply -f onos-original.yml
+```
+
+### Tear down
+
+```sh
+./reset-network.sh
+./k8s-reset/sh
+```
+
 # 程式碼
 
 程式碼分為四個專案：
@@ -161,12 +184,16 @@ sona-onos-config-0               1/1     Running             0          2m51s
 1. `onos`: 是 ONOS 控制器的原始碼，主要修改了 `apps/k8s-node` 和 `apps/k8s-networking` 這兩個 App，這個專案會被另一個專案 `onos-sona-nightly-docker` pull 下來建立 ONOS Container
 2. `onos-sona-nightly-docker`: 主要是透過 `Dockerfile` build ONOS container and then push to Gitlab's container registry
 3. `cluster-scripts`: 為了應付極度重複操作的眾多指令，我把他們寫成腳本以利快速執行
-4. `sona-cni`: 用 Python 撰寫的 CNI，同時包含在各節點執行的、有設置每個節點網路功能的Init containers，一樣是 build 完推送到 Git;ab container registry
+4. `sona-cni`: 用 Python 撰寫的 CNI，同時包含在各節點執行的、有設置每個節點網路功能的Init containers，一樣是 build 完推送到 Gitlab container registry
 
 四個專案在此：https://netlab.csie.ntut.edu.tw:8878/explore/projects?tag=%E5%9A%B4%E5%9A%B4%E8%AB%96%E6%96%87
 
 `onos`、`onos-sona-nightly-docker`和`sona-cni`在 Netlab 的 Gitlab 上我都有建立 build container 的 Pipeline，自動建立容器映像檔。
 
-如果要查看 `onos` 專案程式碼在本論文有修改的地方，請使用這個往只在Gitlab查看修改差異：https://netlab.csie.ntut.edu.tw:8878/oscar/onos/-/compare/onos-1.15...onos-1.15-mod?from_project_id=18
+如果要查看 `onos` 專案程式碼在本論文有修改的地方，請使用這個網址在Gitlab查看修改差異：https://netlab.csie.ntut.edu.tw:8878/oscar/onos/-/compare/onos-1.15...onos-1.15-mod?from_project_id=18
 
-如果要查看 `sona-cni` 專案程式碼在本論文有修改的地方，請使用這個往只在Gitlab查看修改差異：https://netlab.csie.ntut.edu.tw:8878/oscar/sona-cni/-/compare/5d39a642128e7067b1f3421ff7fe82dc1a2eee06...mod?from_project_id=15
+如果要查看 `sona-cni` 專案程式碼在本論文有修改的地方，請使用這個網址在Gitlab查看修改差異：https://netlab.csie.ntut.edu.tw:8878/oscar/sona-cni/-/compare/5d39a642128e7067b1f3421ff7fe82dc1a2eee06...mod?from_project_id=15
+
+在 K8S 套用自己 Build 的 Container ，可以使用 Dockerhub 或是自己 Host 的 Container Registry(容器映像倉庫)，本論文使用實驗室架設的 Gitlab 內建的 Container registry
+
+因此你應該不用重新build container ，直接在 `onos.yml` 或是 `onos-original.yml` 裡面定義即可，記得secret 的部份也要設置，我的腳本已經自動幫你作好了：`set-k8s-access-gitlab-registry.sh`，這個在執行`init-sona.sh` 時就已經幫你套用，除非你不使用實驗室裡面的Gitlab，否則無須修改(如果你閱讀此篇的時候，實驗是的Gitlab還健在的話...)。
