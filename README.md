@@ -117,7 +117,7 @@ Remember to copy kube config to /root/.kube/config on all minion(worker) nodes:
 
 接著不斷地使用 `kgpo` 指令查看Pod狀態，或是 `watch -n1 kubectl get po -o wide` 持續監看Pod狀態。
 
-注意這個時間點：當 `sona-onos-0` 和 `sona-onos-config-0` 都呈現 `1/1 Running` 之時，且三個`sona-node-`開頭的Pod都是`Init:2/3` 的狀態，在worker節點執行 `ovs-vsctl show` 看看是否出現 bridge kbr-int:
+注意這個時間點：當 `sona-onos-0` 和 `sona-onos-config-0` 都呈現 `1/1 Running` 之時，且三個`sona-node-`開頭的Pod都是`Init:2/3` 的狀態:
 
 ```
 oscar@master:~/cluster-scripts$ kgpo
@@ -139,17 +139,21 @@ sona-onos-0                      1/1     Running             0          2m54s
 sona-onos-config-0               1/1     Running             0          2m51s
 ```
 
-出現 kbr-int 時，**馬上** 執行 `setup-sona-network-intf.sh`
+在worker節點透過`ovs-vsctl show`檢查是否出現Bridge `kbr-int`，且 `kbr-int-mgmt` 界面有出現在 `kbr-int` 這個 Bridge 之下(`ovs-vstl show`的輸出如果沒有出現任何Bridge，請重複執行這個指令查看)。
+
+重複執行`ovs-vsctl show`直到出現`kbr-int`和`kbr-int-mgmt`，**馬上** 執行 `setup-sona-network-intf.sh`
 
 ```sh
 ./setup-sona-network-intf.sh
 ```
 
-緊接著執行 `init-sona-nodes.sh` 這個腳本：
+緊接著執行 `init-sona-nodes.sh` 這個腳本，速度要快，否則SONA容器會因為卡住而受到K8S的機制被砍掉重啟：
 
 ```sh
 ./init-sona-nodes.sh
 ```
+
+接著等待所有Pod都是 `1/1 Running` 狀態即可(除了CoreDNS以外，因為CoreDNS出於某些原因會停留在`0/1`的狀態)，並在所有節點及 OvS Access Switch 執行 `ovs-ofctl dump-flows kbr-int` 檢查是否有 Flow，若沒有代表叢集啟用失效，須砍掉叢集重來。
 
 ### Tear down
 
